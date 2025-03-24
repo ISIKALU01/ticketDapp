@@ -7,22 +7,20 @@ const Navbar = () => {
   const { data: session } = useSession(); // Get session data
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="fixed top-0 left-0 w-full bg-black-100 bg-opacity-50 backdrop-blur-sm z-50 shadow-md 
+    font-raleway text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/">
-              <a className="flex items-center">
+            <Link href="/" className="flex items-center">
                 <Image
-                  src="/logo.png" // Replace with your logo
+                  src="/yellowLogo.png" // Replace with your logo
                   alt="Logo"
-                  className="h-10 w-10 rounded-full"
+                  width={150}
+                  height={150}
+                  className="rounded-full"
                 />
-                <span className="ml-2 text-xl font-bold text-gray-800">
-                  MyBrand
-                </span>
-              </a>
             </Link>
           </div>
 
@@ -33,10 +31,9 @@ const Navbar = () => {
                 <span className="text-gray-800 text-sm font-medium">
                   Welcome, {session.user.name}!
                 </span>
-                <Link href="/dashboard">
-                  <a className="text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                <Link href="/dashboard" className="text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md 
+                  text-sm font-medium">
                     Dashboard
-                  </a>
                 </Link>
                 <button
                   onClick={() => signOut()}
@@ -49,14 +46,14 @@ const Navbar = () => {
               <>
                 <button
                   onClick={() => signIn('google')} // Use Google provider
-                  className="text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-black px-3 py-2 rounded-md text-[10px] font-medium 
+                  bg-[#ffd106] cursor-pointer"
                 >
                   Login with Google
                 </button>
-                <Link href="/login">
-                  <a className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
-                    Login with Email
-                  </a>
+                <Link href="/login" className="text-black px-4 py-2 rounded-md text-[10px] font-medium 
+                  bg-[#ffd106]">
+                  Login with Email 
                 </Link>
               </>
             )}
