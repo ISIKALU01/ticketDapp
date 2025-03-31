@@ -1,53 +1,55 @@
 // pages/api/auth/[...nextauth].js
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import { MongoClient } from 'mongodb';
 import bcrypt from 'bcryptjs';
+import { initializeApp, getApps } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
-// MongoDB connection
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+};
+
+// Initialize Firebase
+const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const db = getFirestore(firebaseApp);
+
+
+
 
 export default NextAuth({
+  adapter: FirebaseAdapter(db), // Use Firebase adapter
   providers: [
     Providers.Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackUrl: 'http://localhost:3000/auth/google/callback', // Custom Redirect URI
-
     }),
     Providers.Credentials({
       name: 'Email and Password',
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'email@example.com' },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        await client.connect();
-        const db = client.db('my-database'); // Replace with your DB name
-        const usersCollection = db.collection('users');
-
-        // Find user by email
-        const user = await usersCollection.findOne({ email: credentials.email });
-        if (!user) {
-          throw new Error('No user found with this email.');
+        // Firebase Email/Password Auth (manual implementation)
+        const { email, password } = credentials;
+        try {
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          return {
+            id: userCredential.user.uid,
+            email: userCredential.user.email,
+            name: userCredential.user.displayName,
+          };
+        } catch (error) {
+          throw new Error('Invalid credentials');
         }
-
-        // Compare passwords
-        const isValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isValid) {
-          throw new Error('Invalid password.');
-        }
-
-        return { id: user._id, email: user.email, name: user.name };
       },
     }),
   ],
-  callbacks: {
-    async session(session, user) {
-      session.user.id = user.id; // Add user ID to the session
-      return session;
-    },
-  },
-  secret: process.env.NEXTAUTH_SECRET, // Add a secret for encryption
-});
+  secret: process.env.NEXTAUTH_SECRET,
+})
