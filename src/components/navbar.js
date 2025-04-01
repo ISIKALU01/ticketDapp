@@ -15,7 +15,7 @@ const Navbar = () => {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center">
                 <Image
-                  src="/yellowLogo.png" // Replace with your logo
+                  src="/yellowLogo.png"
                   alt="Logo"
                   width={150}
                   height={150}
@@ -44,16 +44,16 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <button
-                  onClick={() => signIn('google')} // Use Google provider
-                  className="text-black px-3 py-2 rounded-md text-[10px] font-medium 
-                  bg-[#ffd106] cursor-pointer"
+                <Link
+                  href="/login"
+                  className="text-black px-4 py-2 rounded-md text-[10px] font-medium 
+                  bg-[#ffd106]"
                 >
-                  Login with Google
-                </button>
-                <Link href="/login" className="text-black px-4 py-2 rounded-md text-[10px] font-medium 
+                  Login
+                </Link>
+                <Link href="/signUp" className="text-black px-4 py-2 rounded-md text-[10px] font-medium 
                   bg-[#ffd106]">
-                  Login with Email 
+                  Sign Up
                 </Link>
               </>
             )}
