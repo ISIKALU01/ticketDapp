@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../lib/firebase';
 import Link from 'next/link'
+import { signIn } from 'next-auth/react';
+import { auth, createUserWithEmailAndPassword, googleProvider, signInWithPopup } from '../../lib/firebase';
+import Image from 'next/image';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -15,63 +16,86 @@ export default function Signup() {
       await createUserWithEmailAndPassword(auth, email, password);
       router.push('/dashboard');
     } catch (error) {
+      console.error("Signup error:", error);
       alert(error.message);
     }
   };
 
+    // Google signup
+    const handleGoogleSignup = async () => {
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        await signIn('google', { 
+          callbackUrl: '/dashboard',
+          redirect: false 
+        });
+        router.push('/dashboard');
+      } catch (error) {
+        console.error("Google signup error:", error);
+        alert(error.message);
+      }
+    };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-3xl font-extrabold text-center text-gray-900">
-          Create your account
-        </h2>
-        <form className="mt-8 space-y-6" onSubmit={handleSignup}>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email address
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+        <h1 className="text-2xl font-bold mb-6 text-center">Create Account</h1>
+        
+        <form onSubmit={handleSignup}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email
             </label>
             <input
-              id="email"
-              name="email"
               type="email"
-              autoComplete="email"
-              required
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
             <input
-              id="password"
-              name="password"
               type="password"
-              autoComplete="current-password"
-              required
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div>
-            <button
-              type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Sign up
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          >
+            Create Account
+          </button>
         </form>
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              Sign in
-            </Link>
-          </p>
+
+        {/* Google Sign Up Button */}
+        <button
+          onClick={handleGoogleSignup}
+          className="w-full bg-red-500 text-white py-2 px-4 rounded flex items-center justify-center mb-4"
+        >
+          <Image
+            src="https://www.google.com/favicon.ico"  // Make sure to add this to your public folder
+            alt="Google"
+            width={20}
+            height={20}
+            className="mr-2"
+          />
+          Sign up with Google
+        </button>
+
+        <div className="mt-4 text-center text-sm">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-500 hover:underline">
+            Sign in
+          </Link>
         </div>
       </div>
     </div>
