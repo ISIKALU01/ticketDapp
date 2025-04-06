@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link'
-import { signIn } from 'next-auth/react';
 import { auth, createUserWithEmailAndPassword, googleProvider, signInWithPopup } from '../../lib/firebase';
 import Image from 'next/image';
 
@@ -21,20 +20,15 @@ export default function Signup() {
     }
   };
 
-    // Google signup
-    const handleGoogleSignup = async () => {
-      try {
-        const result = await signInWithPopup(auth, googleProvider);
-        await signIn('google', { 
-          callbackUrl: '/dashboard',
-          redirect: false 
-        });
-        router.push('/dashboard');
-      } catch (error) {
-        console.error("Google signup error:", error);
-        alert(error.message);
-      }
-    };
+  // Google signup
+  const handleGoogleSignUp = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      router.push('/dashboard');
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -78,7 +72,7 @@ export default function Signup() {
 
         {/* Google Sign Up Button */}
         <button
-          onClick={handleGoogleSignup}
+          onClick={handleGoogleSignUp}
           className="w-full bg-red-500 text-white py-2 px-4 rounded flex items-center justify-center mb-4"
         >
           <Image
