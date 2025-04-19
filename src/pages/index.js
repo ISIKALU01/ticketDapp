@@ -19,13 +19,13 @@ const HomePage = () => {
 
       {/* Text Content */}
       <div className="relative z-50 text-center text-white px-4 font-raleway">
-        <h1 className="text-2xl lg:text-4xl font-light mb-2">
+        <h1 className="text-3xl lg:text-5xl font-light mb-2 font-great-vibes">
           Welcome to Passion Playgrounds!
         </h1>
-        <h2 className="text-1xl lg:text-2xl font-light mb-2 text-[#ffd106]">
+        <h2 className="text-1xl lg:text-2xl font-light mb-2 text-[#ffd106] font-raleway">
           Join the Adventure of Desire!
         </h2>
-        <p className="text-lg md:text-xl mb-8 font-thin px-[150px]">
+        <p className="text-lg md:text-md mb-8 font-light px-[150px]">
           Dive into a world where your fantasies come alive! At Passion Playgrounds, we specialize in unforgettable 
           experiences, offering exclusive tickets to orgy parties, vibrant adult events, and intimate meetups that 
           celebrate love and connection.

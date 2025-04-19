@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Image from 'next/image';
 import { useState } from "react";
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -29,20 +30,46 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 font-raleway pt-24 pb-12 px-4">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        {/* Header Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-normal text-gray-800 mb-2">Welcome Back</h1>
-          <p className="text-gray-600 font-light">
-            Sign in to continue your journey and access your personalized dashboard
-          </p>
-        </div>
+    <>
+      <Head>
+        <style>{`
+          @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          .vibrant-gradient {
+            background: linear-gradient(
+              135deg,              
+            #0f172a 0%,
+            #1e1b4b 30%,
+            #5b21b6 50%,
+            #1e1b4b 70%,
+            #0f172a 100%
+            );
+            background-size: 300% 300%;
+            animation: gradientFlow 8s ease infinite;
+          }
+        `}</style>
+       </Head>
+
+       <div className="min-h-screen flex items-center justify-center bg-gray-50 font-raleway pt-24 pb-12 
+        vibrant-gradient px-4 font-raleway">
+          <div className="bg-white/5 backdrop-blur-lg p-8 rounded-xl shadow-2xl border border-white/10 w-full max-w-md 
+           hover:shadow-purple-500/10 transition-shadow duration-300 text-white">
+          {/* Header Section */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-semi-bold mb-2 font-great-vibes">Welcome Back</h1>
+            <p className="text-sm">
+              The Night Awaits Your Return...
+            </p>
+          </div>
 
         {/* Google Login Button */}
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-lg mb-6 transition-colors duration-200"
+          className="w-full flex items-center justify-center gap-3 bg-white/90 hover:bg-white text-gray-800 
+          font-medium py-3 px-4 rounded-lg mb-6 transition-all duration-300 hover:scale-[1.02]"
         >
           <Image
             src="https://www.google.com/favicon.ico"
@@ -55,19 +82,16 @@ export default function Login() {
         </button>
 
         {/* Divider */}
-        <div className="relative mb-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <span className="px-2 bg-white text-gray-500 text-sm">or sign in with email</span>
-          </div>
-        </div>
+        <div className="flex items-center mb-6">
+          <div className="flex-1 border-t border-white/20"></div>
+          <span className="px-3 text-white/50 text-sm whitespace-nowrap">or sign in with email</span>
+          <div className="flex-1 border-t border-white/20"></div>
+        </div>  
 
         {/* Email Login Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-1">
               Email Address
             </label>
             <input
@@ -82,7 +106,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-white/80 mb-1">
               Password
             </label>
             <input
@@ -98,7 +122,8 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+            className="w-full bg-purple-500/90 hover:bg-purple-400 text-white font-medium py-3 px-4 rounded-lg 
+            transition-all duration-300 shadow-lg hover:shadow-purple-400/20 hover:scale-[1.02]"
           >
             Sign In
           </button>
@@ -106,14 +131,15 @@ export default function Login() {
 
         {/* Signup Link */}
         <div className="mt-6 text-center">
-          <p className="text-gray-600 text-sm">
+          <p className="text-white/70 text-sm">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" className="text-blue-600 hover:text-blue-800 font-medium transition-colors">
+            <Link href="/signup" className="text-purple-300 hover:text-purple-200 font-medium transition-colors">
               Create one
             </Link>
           </p>
         </div>
       </div>
     </div>
-  );
-}
+    </>
+    
+  )}

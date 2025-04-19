@@ -18,6 +18,9 @@ const Navbar = () => {
     }
   };
 
+  // Only show dashboard links when on dashboard page and user is authenticated
+  const showDashboardLinks = router.pathname === '/dashboard' && user;
+
   return (
     <nav className="fixed top-0 left-0 w-full bg-black-100 bg-opacity-50 backdrop-blur-sm z-50 shadow-md font-raleway text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +43,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {loading ? (
               <div className="animate-pulse h-8 w-20 bg-gray-400 rounded-md opacity-50"></div>
-            ) : user ? (
+            ) : showDashboardLinks ? (
               <>
                 <div className="hidden md:flex items-center space-x-3">
                   {user.photoURL && (
@@ -56,12 +59,6 @@ const Navbar = () => {
                     Welcome, {user.displayName || user.email?.split('@')[0]}!
                   </span>
                 </div>
-                <Link
-                  href="/dashboard"
-                  className="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Dashboard
-                </Link>
                 <button
                   onClick={handleLogout}
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
@@ -71,18 +68,22 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link
-                  href="/login"
-                  className="text-black px-4 py-2 rounded-md text-[10px] md:text-sm font-medium bg-[#ffd106] hover:bg-[#ffdc3d] transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/signUp"
-                  className="text-black px-4 py-2 rounded-md text-[10px] md:text-sm font-medium bg-[#ffd106] hover:bg-[#ffdc3d] transition-colors"
-                >
-                  Sign Up
-                </Link>
+                {router.pathname !== '/login' && (
+                  <Link
+                    href="/login"
+                    className="text-black px-4 py-2 rounded-md text-[10px] md:text-sm font-medium bg-[#ffd106] hover:bg-[#ffdc3d] transition-colors"
+                  >
+                    Login
+                  </Link>
+                )}
+                {router.pathname !== '/signup' && router.pathname !== '/signUp' && (
+                  <Link
+                    href="/signUp"
+                    className="text-black px-4 py-2 rounded-md text-[10px] md:text-sm font-medium bg-[#ffd106] hover:bg-[#ffdc3d] transition-colors"
+                  >
+                    Sign Up
+                  </Link>
+                )}
               </>
             )}
           </div>
