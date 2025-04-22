@@ -1,15 +1,15 @@
 // components/Dashboard.js
 import React from 'react';
-import Head from 'next/head'
+import Head from 'next/head';
+import ImageCarousel from '../components/imagecarousel';
+import Sidebar from '../components/sidebar';
+import DataSpreadsheet from '../components/dataspreadsheet';
+import { useState } from 'react';
+import { Menu, X } from 'react-feather'; // or your preferred icon library
 
 const Dashboard = () => {
-  // Demo data
-  const stats = [
-    { name: 'Total Users', value: 1245, change: '+12%', changeColor: 'text-green-500' },
-    { name: 'Revenue', value: '$8,450', change: '+5%', changeColor: 'text-green-500' },
-    { name: 'Tasks', value: '23/50', change: '-2%', changeColor: 'text-red-500' },
-    { name: 'Performance', value: '87%', change: '+7%', changeColor: 'text-green-500' },
-  ];
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   return (
     <>
@@ -35,27 +35,52 @@ const Dashboard = () => {
         `}</style>
       </Head>
 
-      <div className="p-6 vibrant-gradient font-raleway">
-        <div className="p-6 max-w-7xl mx-auto mt-[100px] bg-black/30">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">Simple Dashboard</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow duration-200">
-                <h3 className="text-gray-500 text-sm font-medium">{stat.name}</h3>
-                <p className="text-2xl font-bold text-gray-800 mt-2">{stat.value}</p>
-                <span className={`text-sm ${stat.changeColor}`}>
-                  {stat.change} from last week
-                </span>
-              </div>
-            ))}
-          </div>
+    
+      <div className="p-4 md:p-6 vibrant-gradient font-raleway min-h-screen">
+      {/* Mobile Sidebar Toggle Button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="fixed left-4 top-20 z-30 bg-white p-2 rounded-md shadow-lg lg:hidden"
+      >
+        {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
 
-          <div className="bg-white rounded-lg shadow p-6 h-96 flex items-center justify-center">
-        <p className="text-gray-400">[Chart Area - Placeholder]</p>
-          </div>
+      {/* Collapsible Sidebar */}
+      <div
+        className={`fixed inset-y-0 left-0 z-20 w-64 bg-black/80 backdrop-blur-md shadow-xl transition-all duration-300 ease-in-out
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+          lg:translate-x-0`}
+      >
+        <Sidebar />
+      </div>
 
+      {/* Main Content Area */}
+      <div
+        className={`transition-all duration-300 ${
+          sidebarOpen ? 'ml-64' : 'ml-0'
+        } lg:ml-64 pl-0 lg:pl-6`}
+      >
+        <div className="pt-16 lg:pt-0">
+          <div className="flex flex-col gap-4 md:gap-6">
+            {/* Responsive Carousel */}
+            <div
+              className="bg-white rounded-lg shadow-md overflow-hidden"
+              style={{
+                height: 'clamp(300px, 50vh, 600px)',
+                minHeight: '300px'
+              }}
+            >
+              <ImageCarousel />
+            </div>
+
+            {/* Responsive Spreadsheet */}
+            <div className="bg-white rounded-lg shadow-md p-3 md:p-5 flex-1 min-h-[250px] overflow-x-auto">
+              <DataSpreadsheet />
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
     </>
 
