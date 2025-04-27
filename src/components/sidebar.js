@@ -8,7 +8,7 @@ export default function Sidebar() {
     font-raleway ">
       {/* Header Section */}
       <div className="pb-5 border-b border-white/10 mb-5">
-        <h2 className="text-xl font-semibold">Explore Freekz</h2>
+        <h2 className="text-xl font-semibold">Explore</h2>
         <p className="text-sm text-white/70">your profile</p>
       </div>
 
