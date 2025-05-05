@@ -50,14 +50,15 @@ const Dashboard = () => {
             {/* Toggle Button - Attached to Sidebar */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className={`absolute -right-3 top-4 z-30 bg-white p-2 rounded-full shadow-lg transition-all duration-300
+              className={`absolute -right-3 top-4 z-30 bg-gray-500 p-2 rounded-full shadow-lg transition-all duration-300
                 ${sidebarOpen ? '' : 'rotate-180'}`}
             >
               {sidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
             </button>
 
             {/* Sidebar Content */}
-            <div className={`h-full overflow-hidden ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none md:opacity-0'}`}>
+            <div className={`h-full overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent 
+              ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none md:opacity-0'}`}>
               <Sidebar />
             </div>
 
