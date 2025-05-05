@@ -38,11 +38,13 @@ const Navbar = () => {
               <>
                 <div className="hidden md:flex items-center space-x-3">
                   <span className="text-white text-sm font-medium">
-                    {user.displayName || user.email?.split('@')[0]}
+                    Hi, {user.displayName || user.email?.split('@')[0]}
                   </span>
                 </div>
                 <button
-                  className="bg-[#ffd106] cursor-pointer text-black px-4 py-2 rounded-xl text-sm font-thin transition-colors"
+                  className="bg cursor-pointer text-white px-4 py-2 rounded-xl text-[12px] font-normal 
+                  transition-colors bg-black-100/10 backdrop-blur-sm border border-white rounded-3xl hover:bg-[#ffdc3d]
+                  hover:text-black hover:border-black"
                 >
                   Connect Wallet
                 </button>

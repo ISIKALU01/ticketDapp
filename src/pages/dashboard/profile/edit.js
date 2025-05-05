@@ -107,6 +107,23 @@ export default function ProfileEdit() {
             background-size: 400% 400%;
             animation: gradientFlow 8s ease infinite;
           }
+
+        
+          @keyframes checkmark {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-5px); }
+            to { opacity: 1; transform: translateX(0); }
+          }
+          .animate-checkmark {
+            animation: checkmark 0.5s ease-out forwards;
+          }
+          .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out 0.2s both;
+          }
         `}</style>
       </Head>
 
