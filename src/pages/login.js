@@ -122,7 +122,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-purple-500/90 hover:bg-purple-400 text-white font-medium py-3 px-4 rounded-lg 
+            className="w-full bg-purple-500/80 hover:bg-purple-400 text-white font-medium py-3 px-4 rounded-lg 
             transition-all duration-300 shadow-lg hover:shadow-purple-400/20 hover:scale-[1.02]"
           >
             Sign In
