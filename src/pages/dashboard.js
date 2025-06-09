@@ -3,9 +3,43 @@ import React from 'react';
 import Head from 'next/head';
 import ImageCarousel from '../components/imagecarousel';
 import Sidebar from '../components/sidebar';
-import DataSpreadsheet from '../components/dataspreadsheet';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'react-feather';
+import UpcomingEventsCard from '../components/events'
+
+
+const events = [
+  {
+    id: '1',
+    title: 'Tech Conference 2023',
+    organizer: 'Tech Org',
+    date: 'Oct 15, 2023',
+    time: '9:00 AM - 5:00 PM',
+    location: 'Convention Center',
+    status: 'Buy',
+    color: '#6366F1', // Optional custom color
+  },
+  {
+    id: '2',
+    title: 'Product Launch',
+    organizer: 'Acme Inc',
+    date: 'Nov 2, 2023',
+    time: '2:00 PM - 4:00 PM',
+    location: 'Virtual',
+    status: 'Buy',
+  },
+  {
+    id: '3',
+    title: 'Team Building',
+    organizer: 'HR Department',
+    date: 'Nov 10, 2023',
+    time: 'All Day',
+    location: 'Mountain Resort',
+    status: 'Buy',
+    color: '#10B981',
+  },
+];
+
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -99,9 +133,14 @@ const Dashboard = () => {
                 </div>
 
                 {/* Responsive Spreadsheet */}
-                <div className="bg-white rounded-lg shadow-md p-3 md:p-5 flex-1 min-h-[250px] overflow-x-auto">
-                  <DataSpreadsheet />
+                <div className="max-w-6xl p-0">
+                  <h1 className="text-2xl text-white font-normal mb-6">Upcoming Events</h1>
+                  <UpcomingEventsCard 
+                    events={events} 
+                    title="Freekz is coming to a Club near you"
+                  />
                 </div>
+               
               </div>
             </div>
           </div>
