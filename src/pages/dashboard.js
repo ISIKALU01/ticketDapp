@@ -5,7 +5,8 @@ import ImageCarousel from '../components/imagecarousel';
 import Sidebar from '../components/sidebar';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'react-feather';
-import UpcomingEventsCard from '../components/events'
+import UpcomingEventsCard from '../components/events';
+import ExclusiveContentVault from '../components/exclusivecontent';
 
 
 const events = [
@@ -137,8 +138,13 @@ const Dashboard = () => {
                   <h1 className="text-2xl text-white font-normal mb-6">Upcoming Events</h1>
                   <UpcomingEventsCard 
                     events={events} 
-                    title="Freekz is coming to a Club near you"
+                    title="Freekz is bringing a party near you"
                   />
+                </div>
+
+                {/*exclusive content card */}
+                <div className="max-w-6xl p-0">
+                  <ExclusiveContentVault />
                 </div>
                
               </div>

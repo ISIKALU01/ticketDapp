@@ -13,7 +13,7 @@ const UpcomingEventsCard = ({ events, title = 'Upcoming Events', onBuyTicket }) 
   return (
     <div className="border border-black/80 bg-black/10 shadow-sm overflow-hidden transition-all hover:shadow-md">
       <div className="px-6 py-4 border-b bg-[#ffd106] border-gray-200">
-        <h3 className="text-xl text-center font-semibold font-raleway text-gray-900">{title}</h3>
+        <h3 className="text-xl text-center font-light font-raleway text-gray-900">{title}</h3>
       </div>
       
       <div className="overflow-x-auto hidden md:block">
