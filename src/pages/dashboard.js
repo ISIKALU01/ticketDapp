@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'react-feather';
 import UpcomingEventsCard from '../components/events';
 import ExclusiveContentVault from '../components/exclusivecontent';
+import LiveActivityFeed from '../components/liveactivity';
+import MeetFreekzAngels from '../components/premiumdating';
 
 
 const events = [
@@ -143,8 +145,14 @@ const Dashboard = () => {
                 </div>
 
                 {/*exclusive content card */}
-                <div className="max-w-6xl p-0">
+                <div className="grid md:grid-cols-2 gap-6 max-w-6xl p-4">
                   <ExclusiveContentVault />
+                  <LiveActivityFeed />
+                </div>
+
+                {/*premium dating */}
+                <div className="px-4">
+                  <MeetFreekzAngels />
                 </div>
                
               </div>

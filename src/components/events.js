@@ -12,8 +12,8 @@ const UpcomingEventsCard = ({ events, title = 'Upcoming Events', onBuyTicket }) 
 
   return (
     <div className="border border-black/80 bg-black/10 shadow-sm overflow-hidden transition-all hover:shadow-md">
-      <div className="px-6 py-4 border-b bg-[#ffd106] border-gray-200">
-        <h3 className="text-xl text-center font-light font-raleway text-gray-900">{title}</h3>
+      <div className="px-6 py-4 bg-gradient-to-br from-purple-900/80 to-black/90 border border-purple-500/30">
+        <h3 className="text-xl text-center font-normal font-raleway text-white">{title}</h3>
       </div>
       
       <div className="overflow-x-auto hidden md:block">
@@ -73,7 +73,8 @@ const UpcomingEventsCard = ({ events, title = 'Upcoming Events', onBuyTicket }) 
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <button
                     onClick={() => handleBuyTicket(event.id)}
-                    className="px-4 py-2 bg-[#ffd106] hover:bg-[#ffc800] text-black font-medium rounded-md transition-colors text-sm"
+                    className="px-4 py-2 bg-[#ffd106] hover:bg-[#ffc800] text-black font-medium rounded-md 
+                    transition-colors text-sm"
                   >
                     Buy Ticket
                   </button>
@@ -106,7 +107,8 @@ const UpcomingEventsCard = ({ events, title = 'Upcoming Events', onBuyTicket }) 
               </div>
               <button
                 onClick={() => handleBuyTicket(event.id)}
-                className="px-3 py-1 bg-[#ffd106] hover:bg-[#ffc800] text-black text-xs font-medium rounded transition-colors"
+                className="px-3 py-1 bg-[#ffd106] hover:bg-[#ffc800] text-black text-xs font-medium rounded 
+                transition-colors"
               >
                 Buy
               </button>
