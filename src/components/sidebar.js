@@ -96,32 +96,46 @@ export default function Sidebar() {
           <span>Home</span>
         </Link>
         <Link 
+          href="/dashboard/BuyTickets" 
+          className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
+        >
+          <FiHome className="text-lg" />
+          <span>Buy a Ticket</span>
+        </Link>
+        <Link 
           href="/dashboard/users" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
           <FiUsers className="text-lg" />
-          <span>Users</span>
+          <span>Gallery</span>
         </Link>
         <Link 
           href="/dashboard/analytics" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
           <FiPieChart className="text-lg" />
-          <span>Analytics</span>
+          <span>Exclusive Contents</span>
         </Link>
         <Link 
           href="/dashboard/calendar" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
           <FiCalendar className="text-lg" />
-          <span>Calendar</span>
+          <span>Meet FreekzAngels</span>
+        </Link>
+        <Link 
+          href="/dashboard/calendar" 
+          className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
+        >
+          <FiCalendar className="text-lg" />
+          <span>Earn with Freekz</span>
         </Link>
         <Link 
           href="/dashboard/settings" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
           <FiSettings className="text-lg" />
-          <span>Settings</span>
+          <span>Stake n Win</span>
         </Link>
       </nav>
 

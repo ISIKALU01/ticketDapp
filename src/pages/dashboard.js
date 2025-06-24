@@ -1,7 +1,7 @@
 // components/Dashboard.js
 import React from 'react';
 import Head from 'next/head';
-import ImageCarousel from '../components/imagecarousel';
+import PartyCarousel from '../components/PartyCarousel';
 import UpcomingEventsCard from '../components/events';
 import ExclusiveContentVault from '../components/exclusivecontent';
 import LiveActivityFeed from '../components/liveactivity';
@@ -66,7 +66,7 @@ const Dashboard = () => {
 
       <div className="p-4 md:p-6 vibrant-gradient font-raleway min-h-screen relative">
         {/* Main Content Area - Removed sidebar-dependent padding */}
-        <div className="mt-[25px]">
+        <div className="mt-[65px]">
           <div className="relative z-0">
             <div className="flex flex-col gap-4 md:gap-6">
               {/* Responsive Carousel */}
@@ -77,7 +77,7 @@ const Dashboard = () => {
                   minHeight: '500px'
                 }}
               >
-                <ImageCarousel />
+                <PartyCarousel />
               </div>
 
               {/* Responsive Spreadsheet */}
