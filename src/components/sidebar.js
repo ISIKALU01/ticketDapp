@@ -1,12 +1,14 @@
 // components/Sidebar.js
 import Link from 'next/link';
-import Image from 'next/image';
+import Images from 'next/image';
 import { FiHome, FiSettings, FiUsers, FiPieChart, FiCalendar, FiLogOut, FiEdit2 } from 'react-icons/fi';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { Home, Ticket, Image, LockKeyhole, Users, Coins, Gem, BarChart2} from 'lucide-react';
+
 
 export default function Sidebar() {
   const [user, loading] = useAuthState(auth);
@@ -40,7 +42,7 @@ export default function Sidebar() {
         <div className="relative flex-shrink-0">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
             {user?.photoURL ? (
-              <Image
+              <Images
                 src={user.photoURL}
                 alt="Profile"
                 width={48}
@@ -92,53 +94,52 @@ export default function Sidebar() {
           href="/dashboard" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
-          <FiHome className="text-lg" />
+          <Home className="w-5 h-5" />
           <span>Home</span>
         </Link>
         <Link 
           href="/dashboard/BuyTickets" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
-          <FiHome className="text-lg" />
+          <Ticket className="w-5 h-5" />
           <span>Buy a Ticket</span>
         </Link>
         <Link 
           href="/dashboard/users" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
-          <FiUsers className="text-lg" />
+          <Image className="w-5 h-5" />
           <span>Gallery</span>
         </Link>
         <Link 
           href="/dashboard/analytics" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
-          <FiPieChart className="text-lg" />
+          <LockKeyhole className="w-5 h-5" />
           <span>Exclusive Contents</span>
         </Link>
         <Link 
           href="/dashboard/calendar" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
-          <FiCalendar className="text-lg" />
+          <Users className="w-5 h-5" />
           <span>Meet FreekzAngels</span>
         </Link>
         <Link 
           href="/dashboard/calendar" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
-          <FiCalendar className="text-lg" />
+          <Coins className="w-5 h-5" />
           <span>Earn with Freekz</span>
         </Link>
         <Link 
           href="/dashboard/settings" 
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200"
         >
-          <FiSettings className="text-lg" />
+          <Gem className="w-5 h-5" />
           <span>Stake n Win</span>
         </Link>
       </nav>
-
       {/* Logout Button */}
       <button
         onClick={handleLogout}
