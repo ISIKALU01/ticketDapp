@@ -1,11 +1,11 @@
-// pages/dashboard/profile/edit.js
 import { useState, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../../../lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import Head from 'next/head'
+import Head from 'next/head';
+import { Twitter, X, Check, Link as LinkIcon } from 'lucide-react';
 
 export default function ProfileEdit() {
   const [user, loading] = useAuthState(auth);
@@ -15,11 +15,12 @@ export default function ProfileEdit() {
     gender: '',
     sexualInterests: [],
     xAccount: '',
-    bio: ''
+    bio: '',
+    twitterConnected: false
   });
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
-
+  const [twitterLoading, setTwitterLoading] = useState(false);
 
   // Load profile data when user is available
   useEffect(() => {
@@ -36,7 +37,8 @@ export default function ProfileEdit() {
             gender: '',
             sexualInterests: [],
             xAccount: '',
-            bio: ''
+            bio: '',
+            twitterConnected: false
           });
         }
       };
@@ -44,6 +46,21 @@ export default function ProfileEdit() {
     }
   }, [user]);
 
+  const handleTwitterConnect = async () => {
+    setTwitterLoading(true);
+    try {
+      // Simulate Twitter/X API connection
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setProfile(prev => ({
+        ...prev,
+        twitterConnected: !prev.twitterConnected,
+        xAccount: prev.twitterConnected ? '' : prev.xAccount || '@username'
+      }));
+    } finally {
+      setTwitterLoading(false);
+    }
+  };
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -51,23 +68,17 @@ export default function ProfileEdit() {
   
     setSaving(true);
     try {
-      // Update auth profile
       await updateProfile(auth.currentUser, {
         displayName: profile.displayName
       });
   
-      // Save to Firestore
       await setDoc(doc(db, 'profiles', user.uid), {
         ...profile,
         lastUpdated: new Date()
       });
   
       setSaveSuccess(true);
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Show success for 1.5s
-
-      // Redirect immediately after successful save
-      router.push('/dashboard');
-      
+      setTimeout(() => router.push('/dashboard'), 1500);
     } catch (error) {
       console.error('Error saving profile:', error);
       alert('Failed to save profile. Please try again.');
@@ -77,18 +88,16 @@ export default function ProfileEdit() {
   };
 
   if (loading) {
-    return <div className="p-4">Loading...</div>;
+    return <div className="p-4 text-white">Loading...</div>;
   }
 
   if (!user) {
-    // This will briefly show before redirect happens
-    return <div className="p-4">Please log in to edit your profile</div>;
+    return <div className="p-4 text-white">Please log in to edit your profile</div>;
   }
 
   return (
-
     <>
-    <Head>
+      <Head>
         <style>{`
           @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
@@ -107,31 +116,29 @@ export default function ProfileEdit() {
             background-size: 400% 400%;
             animation: gradientFlow 8s ease infinite;
           }
-
-        
-          @keyframes checkmark {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
+          .btn-twitter {
+            background: ${profile.twitterConnected ? '#1DA1F2' : 'black'};
+            color: white;
+            border: ${profile.twitterConnected ? '1px solid #1DA1F2' : '1px solid #333'};
           }
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-5px); }
-            to { opacity: 1; transform: translateX(0); }
+          .btn-twitter:hover {
+            background: ${profile.twitterConnected ? '#1991DB' : '#111'};
           }
-          .animate-checkmark {
-            animation: checkmark 0.5s ease-out forwards;
+          .interest-pill {
+            transition: all 0.2s ease;
           }
-          .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out 0.2s both;
+          .interest-pill.selected {
+            background: #7e22ce;
+            color: white;
           }
         `}</style>
       </Head>
 
-      <div className='vibrant-gradient text-white'>
+      <div className='vibrant-gradient text-white min-h-screen'>
         <div className="max-w-2xl mx-auto p-4">
           <h1 className="text-2xl font-bold mb-6 mt-[70px]">Edit Profile</h1>
           
-          <form onSubmit={handleSave} className="space-y-4">
+          <form onSubmit={handleSave} className="space-y-6">
             {/* Display Name */}
             <div>
               <label className="block mb-2 font-medium">Display Name</label>
@@ -139,7 +146,7 @@ export default function ProfileEdit() {
                 type="text"
                 value={profile.displayName}
                 onChange={(e) => setProfile({...profile, displayName: e.target.value})}
-                className="w-full p-2 border rounded"
+                className="w-full p-3 bg-black/30 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
               />
             </div>
@@ -150,7 +157,7 @@ export default function ProfileEdit() {
               <textarea
                 value={profile.bio}
                 onChange={(e) => setProfile({...profile, bio: e.target.value})}
-                className="w-full p-2 border rounded min-h-[100px]"
+                className="w-full p-3 bg-black/30 border border-gray-700 rounded-lg min-h-[100px] focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 maxLength="200"
               />
             </div>
@@ -161,7 +168,7 @@ export default function ProfileEdit() {
               <select
                 value={profile.gender}
                 onChange={(e) => setProfile({...profile, gender: e.target.value})}
-                className="w-full p-2 border rounded"
+                className="w-full p-3 bg-black/30 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               >
                 <option value="">Select gender</option>
                 <option value="male">Male</option>
@@ -173,22 +180,53 @@ export default function ProfileEdit() {
 
             {/* X Account */}
             <div>
-              <label className="block mb-2 font-medium">X (Twitter) Account</label>
+              <label className="block mb-2 font-medium">X (Twitter)</label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={profile.xAccount}
                   onChange={(e) => setProfile({...profile, xAccount: e.target.value})}
                   placeholder="@username"
-                  className="flex-1 p-2 border rounded"
+                  className={`flex-1 p-3 bg-black/30 border ${
+                    profile.twitterConnected ? 'border-[#1DA1F2]' : 'border-gray-700'
+                  } rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                  disabled={profile.twitterConnected}
                 />
                 <button 
                   type="button"
-                  className="px-4 bg-black text-white rounded"
+                  onClick={handleTwitterConnect}
+                  className={`btn-twitter px-4 rounded-lg flex items-center gap-2 transition-all ${
+                    twitterLoading ? 'opacity-70' : ''
+                  }`}
+                  disabled={twitterLoading}
                 >
-                  Connect
+                  {twitterLoading ? (
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="4"></circle>
+                    </svg>
+                  ) : profile.twitterConnected ? (
+                    <>
+                      <Check className="w-5 h-5" />
+                      <span>Connected</span>
+                    </>
+                  ) : (
+                    <>
+                      <X className="w-5 h-5" />
+                      <span>Connect</span>
+                    </>
+                  )}
                 </button>
               </div>
+              {profile.twitterConnected && (
+                <button 
+                  type="button"
+                  onClick={handleTwitterConnect}
+                  className="mt-2 text-sm text-red-400 hover:text-red-300 flex items-center gap-1"
+                >
+                  <LinkIcon className="w-4 h-4" />
+                  <span>Disconnect X account</span>
+                </button>
+              )}
             </div>
 
             {/* Sexual Interests */}
@@ -205,10 +243,10 @@ export default function ProfileEdit() {
                         ? profile.sexualInterests.filter(i => i !== interest)
                         : [...profile.sexualInterests, interest]
                     })}
-                    className={`px-3 py-1 rounded-full text-sm ${
+                    className={`interest-pill px-4 py-2 rounded-full text-sm ${
                       profile.sexualInterests.includes(interest)
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-200'
+                        ? 'selected bg-purple-600 text-white'
+                        : 'bg-gray-700 hover:bg-gray-600'
                     }`}
                   >
                     {interest}
@@ -218,61 +256,46 @@ export default function ProfileEdit() {
             </div>
 
             {/* Form Actions */}
-            <div className="flex justify-end gap-3 pt-6">
+            <div className="flex justify-end gap-3 pt-8">
               <button
                 type="button"
                 onClick={() => router.push('/dashboard')}
-                className="px-4 py-2 border rounded"
+                className="px-6 py-3 border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors"
                 disabled={saving}
               >
                 Cancel
               </button>
               <button
-                  type="submit"
-                  className={`px-4 py-2 rounded-md flex items-center justify-center gap-2 transition-all duration-300 ${
-                    saveSuccess 
-                      ? 'bg-green-500 scale-105' 
-                      : saving 
-                        ? 'bg-blue-500' 
-                        : 'bg-blue-600 hover:bg-blue-700'
-                  } text-white`}
-                  disabled={saving || saveSuccess}
-                >
-                  {saveSuccess ? (
-                    <>
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        className="h-5 w-5 animate-checkmark"
-                        viewBox="0 0 20 20" 
-                        fill="currentColor"
-                      >
-                        <path 
-                          fillRule="evenodd" 
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" 
-                          clipRule="evenodd" 
-                        />
-                      </svg>
-                      <span className="animate-fadeIn">Saved! Redirecting...</span>
-                    </>
-                  ) : saving ? (
-                    <>
-                      <svg 
-                        className="animate-spin h-5 w-5" 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        fill="none" 
-                        viewBox="0 0 24 24"
-                      >
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Saving...
-                    </>
-                  ) : (
-                    'Save Changes'
-                  )}
-                </button>
-
-
+                type="submit"
+                className={`px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all ${
+                  saveSuccess 
+                    ? 'bg-green-600 scale-105' 
+                    : saving 
+                      ? 'bg-purple-700' 
+                      : 'bg-purple-600 hover:bg-purple-700'
+                } text-white`}
+                disabled={saving || saveSuccess}
+              >
+                {saveSuccess ? (
+                  <>
+                    <Check className="w-5 h-5 animate-bounce" />
+                    <span>Saved! Redirecting...</span>
+                  </>
+                ) : saving ? (
+                  <>
+                    <svg 
+                      className="animate-spin h-5 w-5" 
+                      viewBox="0 0 24 24"
+                    >
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Saving...</span>
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
+              </button>
             </div>
           </form>
         </div>
