@@ -1,13 +1,18 @@
 // components/Navbar.js
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { auth } from '../../lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useWallet } from '../../context/WalletContext';
 
 const Navbar = () => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
+  const { account, connectWallet, disconnectWallet } = useWallet();
+  
+
 
   // Show dashboard links when user is authenticated and on any dashboard page
   const showDashboardLinks = user && router.pathname.startsWith('/dashboard');
@@ -41,12 +46,12 @@ const Navbar = () => {
                     Hi, {user.displayName || user.email?.split('@')[0]}
                   </span>
                 </div>
-                <button
+                <button onClick={account ? disconnectWallet : connectWallet}
                   className="bg cursor-pointer text-white px-4 py-2 rounded-xl text-[12px] font-normal 
                   transition-colors bg-black-100/10 backdrop-blur-sm border border-white rounded-3xl hover:bg-[#ffdc3d]
                   hover:text-black hover:border-black"
                 >
-                  Connect Wallet
+                  {account ? 'Disconnect' : 'Connect Wallet'}
                 </button>
               </>
             ) : (
