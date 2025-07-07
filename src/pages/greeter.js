@@ -4,8 +4,9 @@ import { ethers } from "ethers";
 
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Replace with your contract address
 
-const greeterArtifact = require("../../artifacts/contracts/Greeter.sol/Greeter.json");
+const greeterArtifact = require("../../public/contracts/Greeter.json");
 const abi = greeterArtifact.abi;
+
 
 export default function Home() {
     const [greeting, setGreeting] = useState("");
